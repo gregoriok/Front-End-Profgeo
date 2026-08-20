@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
-import { usuarioService, unidadeService } from '../api/services';
+import { usuarioService, unidadeService, professorService } from '../api/services';
 
 export function CadastrarUsuario() {
   const { register, handleSubmit, watch, reset } = useForm();
   const navigate = useNavigate();
 
-  // Estados para controle da tela
-  const [tipoUsuario, setTipoUsuario] = useState('aluno'); // 'aluno' ou 'professor'
+  const [tipoUsuario, setTipoUsuario] = useState('aluno');
   const [unidades, setUnidades] = useState([]);
   const [loadingUnidades, setLoadingUnidades] = useState(true);
+  const [professores, setProfessores] = useState([]);
+  const [loadingProfessores, setLoadingProfessores] = useState(false);
+
+  const idUnidadeSelecionada = watch('id_unidade');
 
   // 1. Carregar as Unidades para o Select
   useEffect(() => {
@@ -28,6 +31,27 @@ export function CadastrarUsuario() {
     carregarUnidades();
   }, []);
 
+  // 2. Carregar professores da unidade selecionada (apenas para aluno)
+  useEffect(() => {
+    if (tipoUsuario !== 'aluno' || !idUnidadeSelecionada) {
+      setProfessores([]);
+      return;
+    }
+    async function carregarProfessores() {
+      setLoadingProfessores(true);
+      try {
+        const lista = await professorService.getProfessoresByUnidade(idUnidadeSelecionada);
+        setProfessores(lista);
+      } catch (error) {
+        console.error("Erro ao buscar professores:", error);
+        setProfessores([]);
+      } finally {
+        setLoadingProfessores(false);
+      }
+    }
+    carregarProfessores();
+  }, [idUnidadeSelecionada, tipoUsuario]);
+
   // 2. Lógica de Envio Inteligente
   const onSubmit = async (data) => {
     try {
@@ -39,7 +63,8 @@ export function CadastrarUsuario() {
         telefone: data.telefone,
         cpf: data.cpf,
         formacao: data.formacao,
-        id_unidade: data.id_unidade
+        id_unidade: data.id_unidade,
+        url_lattes: data.url_lattes || null
       };
 
       let payloadFinal = {};
@@ -51,17 +76,17 @@ export function CadastrarUsuario() {
           is_professor: true,
           is_aluno: false,
           area_atuacao: data.area_atuacao,
-          ano_ingresso: data.ano_ingresso, // String conforme seu JSON
+          ano_ingresso: data.ano_ingresso,
           professor_type: data.professor_type // Permanente, Visitante, etc.
         };
       } else {
-        // Monta JSON de Aluno
         payloadFinal = {
           ...payloadBase,
           is_professor: false,
           is_aluno: true,
           data_de_ingresso: data.data_de_ingresso,
-          data_de_defesa: data.data_de_defesa || null // Pode ser vazio se ainda não defendeu
+          data_de_defesa: data.data_de_defesa || null,
+          id_professor_vinculado: data.id_professor_vinculado
         };
       }
 
@@ -144,7 +169,7 @@ export function CadastrarUsuario() {
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Formação</label>
-                    <select {...register("formacao", { required: true })} className="w-full p-2 border rounded bg-white">
+                    <select {...register("formacao", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500">
                         <option value="Graduação">Graduação</option>
                         <option value="Especialização">Especialização</option>
                         <option value="Mestrado">Mestrado</option>
@@ -153,12 +178,22 @@ export function CadastrarUsuario() {
                 </div>
             </div>
 
+            <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">URL do Currículo Lattes</label>
+                <input
+                  type="url"
+                  {...register("url_lattes")}
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+                  placeholder="http://lattes.cnpq.br/..."
+                />
+            </div>
+
             {/* --- SELEÇÃO DE UNIDADE (Dinâmica) --- */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Unidade Associada</label>
               <select 
                 {...register("id_unidade", { required: "Selecione uma unidade" })} 
-                className="w-full p-2 border rounded bg-white focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
                 disabled={loadingUnidades}
               >
                 <option value="">{loadingUnidades ? "Carregando..." : "Selecione sua Unidade"}</option>
@@ -190,10 +225,9 @@ export function CadastrarUsuario() {
 
                 <div>
                    <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Professor</label>
-                   <select {...register("professor_type", { required: true })} className="w-full p-2 border rounded bg-white">
+                   <select {...register("professor_type", { required: true })} className="w-full p-2 border rounded">
                       <option value="Permanente">Permanente</option>
-                      <option value="Colaborador">Colaborador</option>
-                      <option value="Visitante">Visitante</option>
+                     <option value="Temporário">Temporário</option>
                    </select>
                 </div>
               </div>
@@ -203,7 +237,7 @@ export function CadastrarUsuario() {
             {tipoUsuario === 'aluno' && (
               <div className="bg-green-50 p-4 rounded-lg border border-green-100 space-y-4 animate-fade-in">
                 <h3 className="text-sm font-bold text-green-800 uppercase">Dados do Aluno</h3>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                    <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Data de Ingresso</label>
@@ -213,6 +247,28 @@ export function CadastrarUsuario() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Previsão de Defesa</label>
                       <input type="date" {...register("data_de_defesa")} className="w-full p-2 border rounded"/>
                    </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Professor Vinculado</label>
+                  <select
+                    {...register("id_professor_vinculado", { required: "Selecione um professor" })}
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-green-500"
+                    disabled={!idUnidadeSelecionada || loadingProfessores}
+                  >
+                    <option value="">
+                      {!idUnidadeSelecionada
+                        ? "Selecione uma unidade primeiro"
+                        : loadingProfessores
+                        ? "Carregando professores..."
+                        : "Selecione o professor"}
+                    </option>
+                    {professores.map(prof => (
+                      <option key={prof.id || prof.id_usuario} value={prof.id || prof.id_usuario}>
+                        {prof.nome}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             )}

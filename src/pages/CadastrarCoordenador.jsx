@@ -149,7 +149,7 @@ export function CadastrarCoordenador() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Cargo</label>
                   <select {...register("coordenador_type", { required: true })} className="w-full p-2 border rounded bg-white">
                     <option value="Coordenador">Coordenador</option>
-                    <option value="Vice-Coordenador">Vice-Coordenador</option>
+                    <option value="Vice_Coordenador">Vice Coordenador</option>
                   </select>
                 </div>
             </div>

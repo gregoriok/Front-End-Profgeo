@@ -63,7 +63,7 @@ export function ListarUnidades() {
         {unidades.map((uni, index) => (
            // ... (seu código dos cards continua igual)
            <div key={index} className="bg-white rounded-xl shadow p-6 h-64 flex flex-col items-center justify-center border border-gray-200">
-              <h3 className="font-bold">{uni.nome_unidade}</h3>
+              <h3 className="font-bold text-sm text-gray-500">{uni.nome_unidade}</h3>
               <p className="text-sm text-gray-500">{uni.municipio}/{uni.estado}</p>
            </div>
         ))}

@@ -9,6 +9,10 @@ RUN npm install
 
 # Copia o código fonte e gera o build de produção
 COPY . .
+
+ARG VITE_GEOSERVER_URL=/geoserver
+ENV VITE_GEOSERVER_URL=$VITE_GEOSERVER_URL
+
 RUN npm run build
 
 # Estágio 2: Servidor Nginx para rodar o site

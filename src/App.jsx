@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { EditarTurma } from './pages/EditarTurma';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home'; // <--- Importe a nova página
+import { Perfil } from './pages/Perfil';
 import { CadastrarUnidade } from './pages/CadastrarUnidade';
 import { ListarUnidades } from './pages/ListarUnidades';
 import { CadastrarUsuario } from './pages/CadastrarUsuario';
@@ -11,6 +12,7 @@ import { CadastrarTurma } from './pages/CadastrarTurma';
 import { ListarTurmas } from './pages/ListarTurmas';
 import { GestaoTurmas } from './pages/GestaoTurmas';
 import {CadastrarCoordenador} from './pages/CadastrarCoordenador'
+import { Observatorio } from './pages/Observatorio';
 // Um componente simples para proteger rotas privadas
 function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -26,13 +28,20 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          {/* Rota Pública: Login agora fica em /login */}
+          {/* Rotas Públicas */}
           <Route path="/login" element={<Login />} />
+          <Route path="/observatorio" element={<Observatorio />} />
           <Route path="/cadastro" element={<CadastrarUsuario />} />
           {/* Rota Privada: Home fica na raiz / */}
           <Route path="/" element={
             <PrivateRoute>
               <Home />
+            </PrivateRoute>
+          } />
+
+          <Route path="/perfil" element={
+            <PrivateRoute>
+              <Perfil />
             </PrivateRoute>
           } />
 

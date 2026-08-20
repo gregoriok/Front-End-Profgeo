@@ -68,7 +68,7 @@ export function CadastrarTurma() {
     try {
       const payload = {
         ...data,
-        id_colaborador: user?.id || user?.sub, 
+        id_colaborador: user?.id_usuario || user?.id || null,
         n_alunos: Number(data.n_alunos),
         ano_letivo: Number(data.ano_letivo),
         id_escola: Number(data.id_escola)

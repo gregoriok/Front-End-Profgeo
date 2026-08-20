@@ -45,6 +45,19 @@ export function Home() {
         {/* --- GRID DE MENUS --- */}
         {/* FIX VISUAL: Ajustado grid-cols para ficar mais largo em telas grandes */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <div
+            onClick={() => navigate('/perfil')}
+            className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md border border-amber-200 cursor-pointer transition-all hover:-translate-y-1 group flex flex-col items-start h-full"
+          >
+            <div className="bg-amber-100 text-amber-700 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-gray-800 mb-2">Meu Perfil</h2>
+            <p className="text-gray-500 text-sm">Visualize seus dados e permissões cadastrados no sistema.</p>
+          </div>
           
           {/* Card 1: Minhas Turmas */}
           <div 
@@ -72,6 +85,20 @@ export function Home() {
             </div>
             <h2 className="text-xl font-bold text-gray-800 mb-2">Unidades Associadas</h2>
             <p className="text-gray-500 text-sm">Visualize as unidades e polos cadastrados no sistema.</p>
+          </div>
+
+          {/* Card: Observatorio */}
+          <div
+            onClick={() => navigate('/observatorio')}
+            className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md border border-teal-200 cursor-pointer transition-all hover:-translate-y-1 group flex flex-col items-start h-full"
+          >
+            <div className="bg-teal-100 text-teal-600 w-12 h-12 rounded-lg flex items-center justify-center mb-4 group-hover:bg-teal-600 group-hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h2 className="text-xl font-bold text-gray-800 mb-2">Observatorio</h2>
+            <p className="text-gray-500 text-sm">Mapa interativo com as escolas do programa ProfGeo.</p>
           </div>
 
           {/* Card 3: Gestão */}
