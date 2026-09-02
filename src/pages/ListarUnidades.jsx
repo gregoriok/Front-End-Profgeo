@@ -15,18 +15,18 @@ export function ListarUnidades() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
+    <div className="min-h-screen bg-profgeo-50 p-10">
       
       {/* Botão Voltar */}
       <div className="max-w-7xl mx-auto mb-4">
-        <Link to="/" className="text-gray-500 hover:text-blue-600 flex items-center gap-1 font-medium transition-colors">
+        <Link to="/dashboard" className="text-gray-500 hover:text-profgeo-600 flex items-center gap-1 font-medium transition-colors">
           ← Voltar para Home
         </Link>
       </div>
 
       <div className="flex justify-between items-center mb-8 max-w-7xl mx-auto">
         <div>
-          <h2 className="text-3xl font-bold text-gray-800">Unidades Associadas</h2>
+          <h2 className="text-3xl font-bold text-profgeo-900">Unidades Associadas</h2>
           <p className="text-gray-500 text-sm mt-1">Gerenciamento de polos e unidades</p>
         </div>
         
@@ -47,7 +47,7 @@ export function ListarUnidades() {
             {/* Botão Existente: Nova Unidade */}
             <Link 
               to="/unidades/nova" 
-              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium shadow-md transition-colors flex items-center gap-2"
+              className="bg-profgeo-600 hover:bg-profgeo-700 text-white px-5 py-2 rounded-lg font-medium shadow-md transition-colors flex items-center gap-2"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -62,7 +62,7 @@ export function ListarUnidades() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
         {unidades.map((uni, index) => (
            // ... (seu código dos cards continua igual)
-           <div key={index} className="bg-white rounded-xl shadow p-6 h-64 flex flex-col items-center justify-center border border-gray-200">
+           <div key={index} className="bg-white rounded-xl shadow p-6 h-64 flex flex-col items-center justify-center border border-profgeo-100">
               <h3 className="font-bold text-sm text-gray-500">{uni.nome_unidade}</h3>
               <p className="text-sm text-gray-500">{uni.municipio}/{uni.estado}</p>
            </div>

@@ -58,24 +58,32 @@ export function Observatorio() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-profgeo-50 flex flex-col">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      <header className="bg-white shadow-sm border-b border-profgeo-100">
         <div className="max-w-7xl mx-auto px-4 py-5 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="text-center sm:text-left">
-            <h1 className="text-2xl font-bold text-gray-800">
+            <h1 className="text-2xl font-bold text-profgeo-900">
               Observatorio ProfGeo
             </h1>
             <p className="text-gray-500 text-sm mt-1">
               Mapa interativo das escolas com turmas cadastradas no programa.
             </p>
           </div>
-          <button
-            onClick={() => navigate('/login')}
-            className="text-blue-600 hover:text-blue-800 font-medium text-sm border border-blue-200 hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors"
-          >
-            Acessar o Sistema
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate('/')}
+              className="text-gray-500 hover:text-profgeo-600 font-medium text-sm px-4 py-2 rounded-lg transition-colors"
+            >
+              Pagina Inicial
+            </button>
+            <button
+              onClick={() => navigate('/login')}
+              className="text-white bg-profgeo-600 hover:bg-profgeo-700 font-medium text-sm px-4 py-2 rounded-lg transition-colors shadow-sm"
+            >
+              Acessar o Sistema
+            </button>
+          </div>
         </div>
       </header>
 

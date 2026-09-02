@@ -83,12 +83,12 @@ export function CadastrarTurma() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-profgeo-50 p-6">
       <div className="max-w-2xl mx-auto">
         
         {/* BOTÃO VOLTAR */}
         <div className="mb-6">
-          <Link to="/turmas" className="text-gray-500 hover:text-blue-600 flex items-center gap-2 font-medium transition-colors w-fit">
+          <Link to="/turmas" className="text-gray-500 hover:text-profgeo-600 flex items-center gap-2 font-medium transition-colors w-fit">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
@@ -97,14 +97,14 @@ export function CadastrarTurma() {
         </div>
 
         {/* CARTÃO DO FORMULÁRIO */}
-        <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">Nova Turma</h2>
+        <div className="bg-white p-8 rounded-xl shadow-md border border-profgeo-100">
+          <h2 className="text-2xl font-bold mb-6 text-profgeo-900">Nova Turma</h2>
           
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             
             {/* Bloco Localização */}
-            <div className="bg-blue-50 p-5 rounded-lg border border-blue-100 shadow-sm">
-              <h3 className="text-sm font-bold text-blue-800 mb-4 uppercase tracking-wide">Localização da Escola</h3>
+            <div className="bg-profgeo-50 p-5 rounded-lg border border-profgeo-100 shadow-sm">
+              <h3 className="text-sm font-bold text-profgeo-800 mb-4 uppercase tracking-wide">Localização da Escola</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
@@ -127,7 +127,7 @@ export function CadastrarTurma() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Escola</label>
                 <input 
                   type="text"
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900 disabled:bg-gray-100"
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900 disabled:bg-gray-100"
                   placeholder={selectedCidade ? "Digite o nome..." : "Selecione a cidade"}
                   disabled={!selectedCidade}
                   value={termoBusca}
@@ -141,7 +141,7 @@ export function CadastrarTurma() {
                 {mostrarSugestoes && sugestoesEscolas.length > 0 && (
                   <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto mt-1">
                     {sugestoesEscolas.map((escola) => (
-                      <li key={escola.id_inep} onClick={() => selecionarEscola(escola)} className="p-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-900 border-b border-gray-100">
+                      <li key={escola.id_inep} onClick={() => selecionarEscola(escola)} className="p-2 hover:bg-profgeo-50 cursor-pointer text-sm text-gray-900 border-b border-gray-100">
                         <span className="font-bold block">{escola.nome}</span>
                       </li>
                     ))}
@@ -177,7 +177,7 @@ export function CadastrarTurma() {
               </div>
             </div>
 
-            <button type="submit" className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
+            <button type="submit" className="w-full bg-profgeo-600 text-white font-bold py-3 rounded-lg hover:bg-profgeo-700 transition">
               Salvar Turma
             </button>
           </form>

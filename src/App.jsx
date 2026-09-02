@@ -2,7 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { EditarTurma } from './pages/EditarTurma';
 import { Login } from './pages/Login';
-import { Home } from './pages/Home'; // <--- Importe a nova página
+import { LandingPage } from './pages/LandingPage';
+import { Home } from './pages/Home';
 import { Perfil } from './pages/Perfil';
 import { CadastrarUnidade } from './pages/CadastrarUnidade';
 import { ListarUnidades } from './pages/ListarUnidades';
@@ -13,12 +14,10 @@ import { ListarTurmas } from './pages/ListarTurmas';
 import { GestaoTurmas } from './pages/GestaoTurmas';
 import {CadastrarCoordenador} from './pages/CadastrarCoordenador'
 import { Observatorio } from './pages/Observatorio';
+
 // Um componente simples para proteger rotas privadas
 function PrivateRoute({ children }) {
   const { user } = useAuth();
-  // Se não tiver usuário logado (token), manda pro login
-  // Nota: Na primeira carga o 'user' pode ser null até o AuthContext verificar o localStorage. 
-  // Em apps reais usamos um estado de 'loading'. Pra esse teste simplificado, pode passar.
   const token = localStorage.getItem('token');
   return token ? children : <Navigate to="/login" />;
 }
@@ -28,12 +27,14 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          {/* Rotas Públicas */}
+          {/* Rotas Publicas */}
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/observatorio" element={<Observatorio />} />
           <Route path="/cadastro" element={<CadastrarUsuario />} />
-          {/* Rota Privada: Home fica na raiz / */}
-          <Route path="/" element={
+
+          {/* Rota Privada: Dashboard (antiga Home) */}
+          <Route path="/dashboard" element={
             <PrivateRoute>
               <Home />
             </PrivateRoute>
@@ -54,16 +55,17 @@ function App() {
           <Route path="/unidades" element={<PrivateRoute><ListarUnidades /></PrivateRoute>} />
           <Route path="/unidades/nova" element={<PrivateRoute><CadastrarUnidade /></PrivateRoute>} />
 
-          {/* Usuário (Pode ser pública ou privada dependendo da regra) */}
+          {/* Usuario */}
           <Route path="/usuarios/novo" element={<CadastrarUsuario />} />
 
-          {/* Coordenação */}
+          {/* Coordenacao */}
           <Route path="/coordenacao" element={<PrivateRoute><Coordenacao /></PrivateRoute>} />
           <Route path="/coordenacao/nova" element={
             <PrivateRoute>
               <CadastrarCoordenador />
             </PrivateRoute>
           } />
+
           {/* Turmas */}
           <Route path="/turmas" element={<PrivateRoute><ListarTurmas /></PrivateRoute>} />
           <Route path="/turmas/nova" element={<PrivateRoute><CadastrarTurma /></PrivateRoute>} />

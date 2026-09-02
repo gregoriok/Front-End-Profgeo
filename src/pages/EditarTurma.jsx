@@ -64,9 +64,9 @@ export function EditarTurma() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-lg border border-gray-200">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">Editar Turma</h2>
+    <div className="min-h-screen bg-profgeo-50 flex items-center justify-center p-6">
+      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-lg border border-profgeo-100">
+        <h2 className="text-2xl font-bold mb-6 text-profgeo-900">Editar Turma</h2>
         
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           
@@ -75,14 +75,14 @@ export function EditarTurma() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Nome da Turma</label>
             <input 
               {...register("nome", { required: true, minLength: 2 })}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900"
             />
           </div>
 
           {/* Turno */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Turno</label>
-            <select {...register("turno")} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900">
+            <select {...register("turno")} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900">
               <option value="Matutino">Matutino</option>
               <option value="Vespertino">Vespertino</option>
               <option value="Noturno">Noturno</option>
@@ -96,7 +96,7 @@ export function EditarTurma() {
             <input 
               type="number" 
               {...register("n_alunos", { required: true })}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900"
             />
           </div>
 
@@ -106,7 +106,7 @@ export function EditarTurma() {
             <input 
               type="number" 
               {...register("ano_letivo", { required: true })}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900"
             />
           </div>
 
@@ -120,7 +120,7 @@ export function EditarTurma() {
             </button>
             <button 
               type="submit" 
-              className="w-2/3 bg-blue-600 text-white font-bold py-2 rounded hover:bg-blue-700 transition shadow"
+              className="w-2/3 bg-profgeo-600 text-white font-bold py-2 rounded hover:bg-profgeo-700 transition shadow"
             >
               Salvar Alterações
             </button>

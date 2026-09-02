@@ -103,22 +103,22 @@ export function CadastrarUsuario() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl border border-gray-200">
+    <div className="min-h-screen flex items-center justify-center bg-profgeo-50 p-6">
+      <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl border border-profgeo-100">
         
         <div className="mb-6 text-center">
-            <h2 className="text-3xl font-bold text-gray-800">Crie sua Conta</h2>
+            <h2 className="text-3xl font-bold text-profgeo-900">Crie sua Conta</h2>
             <p className="text-gray-500 mt-2">Preencha seus dados para acessar o sistema.</p>
         </div>
 
         {/* --- SELETOR DE TIPO (Abas) --- */}
-        <div className="flex bg-gray-100 p-1 rounded-lg mb-6">
+        <div className="flex bg-profgeo-50 p-1 rounded-lg mb-6">
           <button
             type="button"
             onClick={() => setTipoUsuario('aluno')}
             className={`flex-1 py-2 text-sm font-bold rounded-md transition-all ${
               tipoUsuario === 'aluno' 
-                ? 'bg-white text-blue-600 shadow-sm' 
+                ? 'bg-white text-profgeo-600 shadow-sm' 
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -129,7 +129,7 @@ export function CadastrarUsuario() {
             onClick={() => setTipoUsuario('professor')}
             className={`flex-1 py-2 text-sm font-bold rounded-md transition-all ${
               tipoUsuario === 'professor' 
-                ? 'bg-white text-blue-600 shadow-sm' 
+                ? 'bg-white text-profgeo-600 shadow-sm' 
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
@@ -143,33 +143,33 @@ export function CadastrarUsuario() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
-                    <input {...register("nome", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" />
+                    <input {...register("nome", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900" />
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" {...register("email", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" />
+                    <input type="email" {...register("email", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900" />
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Senha</label>
-                    <input type="password" {...register("senha", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" />
+                    <input type="password" {...register("senha", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900" />
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">CPF (somente números)</label>
-                    <input {...register("cpf", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" placeholder="000.000.000-00"/>
+                    <input {...register("cpf", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900" placeholder="000.000.000-00"/>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
-                    <input {...register("telefone", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" />
+                    <input {...register("telefone", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900" />
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Formação</label>
-                    <select {...register("formacao", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900">
+                    <select {...register("formacao", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900">
                         <option value="Graduação">Graduação</option>
                         <option value="Especialização">Especialização</option>
                         <option value="Mestrado">Mestrado</option>
@@ -183,7 +183,7 @@ export function CadastrarUsuario() {
                 <input
                   type="url"
                   {...register("url_lattes")}
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900"
                   placeholder="http://lattes.cnpq.br/..."
                 />
             </div>
@@ -193,7 +193,7 @@ export function CadastrarUsuario() {
               <label className="block text-sm font-medium text-gray-700 mb-1">Unidade Associada</label>
               <select 
                 {...register("id_unidade", { required: "Selecione uma unidade" })} 
-                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900"
                 disabled={loadingUnidades}
               >
                 <option value="">{loadingUnidades ? "Carregando..." : "Selecione sua Unidade"}</option>
@@ -209,8 +209,8 @@ export function CadastrarUsuario() {
 
             {/* --- CAMPOS ESPECÍFICOS: PROFESSOR --- */}
             {tipoUsuario === 'professor' && (
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 space-y-4 animate-fade-in">
-                <h3 className="text-sm font-bold text-blue-800 uppercase">Dados do Professor</h3>
+              <div className="bg-profgeo-50 p-4 rounded-lg border border-profgeo-100 space-y-4 animate-fade-in">
+                <h3 className="text-sm font-bold text-profgeo-800 uppercase">Dados do Professor</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                    <div>
@@ -274,14 +274,14 @@ export function CadastrarUsuario() {
             )}
 
             {/* Botão de Cadastro */}
-            <button type="submit" className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition shadow-md mt-4">
+            <button type="submit" className="w-full bg-profgeo-600 text-white font-bold py-3 rounded-lg hover:bg-profgeo-700 transition shadow-md mt-4">
                 Confirmar Cadastro ({tipoUsuario === 'professor' ? 'Professor' : 'Aluno'})
             </button>
         </form>
 
         {/* Botão Voltar */}
         <div className="mt-6 text-center">
-            <Link to="/login" className="text-gray-500 hover:text-blue-600 text-sm font-medium">
+            <Link to="/login" className="text-gray-500 hover:text-profgeo-600 text-sm font-medium">
                 ← Voltar para o Login
             </Link>
         </div>

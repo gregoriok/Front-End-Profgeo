@@ -28,10 +28,10 @@ export function Perfil() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-100 p-6">
-        <div className="max-w-3xl mx-auto bg-white rounded-xl border border-gray-200 p-6">
+      <div className="min-h-screen bg-profgeo-50 p-6">
+        <div className="max-w-3xl mx-auto bg-white rounded-xl border border-profgeo-100 p-6">
           <p className="text-gray-600">Usuário não autenticado.</p>
-          <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium mt-2 inline-block">
+          <Link to="/login" className="text-profgeo-600 hover:text-profgeo-700 font-medium mt-2 inline-block">
             Ir para login
           </Link>
         </div>
@@ -54,24 +54,24 @@ export function Perfil() {
   }));
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 md:p-10">
+    <div className="min-h-screen bg-profgeo-50 p-6 md:p-10">
       <div className="max-w-5xl mx-auto">
         <div className="mb-4">
-          <Link to="/" className="text-gray-500 hover:text-blue-600 flex items-center gap-1 font-medium transition-colors w-fit">
+          <Link to="/dashboard" className="text-gray-500 hover:text-profgeo-600 flex items-center gap-1 font-medium transition-colors w-fit">
             ← Voltar para Home
           </Link>
         </div>
 
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-xl border border-profgeo-100 shadow-sm overflow-hidden">
           <div className="p-6 border-b border-gray-100">
-            <h1 className="text-2xl font-bold text-gray-800">Meu Perfil</h1>
+            <h1 className="text-2xl font-bold text-profgeo-900">Meu Perfil</h1>
             <p className="text-sm text-gray-500 mt-1">
               Dados do usuário autenticado conforme informações retornadas pela API no token de acesso.
             </p>
           </div>
 
           <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <section className="bg-gray-50 rounded-lg border border-gray-200 p-4">
+            <section className="bg-profgeo-50 rounded-lg border border-profgeo-100 p-4">
               <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-3">Dados Cadastrais</h2>
               <div className="space-y-2">
                 {fieldsToDisplay.map((field) => (
@@ -85,7 +85,7 @@ export function Perfil() {
               </div>
             </section>
 
-            <section className="bg-gray-50 rounded-lg border border-gray-200 p-4">
+            <section className="bg-profgeo-50 rounded-lg border border-profgeo-100 p-4">
               <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-3">Permissões</h2>
               <div className="space-y-2">
                 {roles.map((role) => (

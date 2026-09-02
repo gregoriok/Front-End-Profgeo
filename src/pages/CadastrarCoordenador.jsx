@@ -76,17 +76,17 @@ export function CadastrarCoordenador() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="min-h-screen bg-profgeo-50 p-6">
       <div className="max-w-xl mx-auto">
         
         <div className="mb-6">
-          <Link to="/unidades" className="text-gray-500 hover:text-blue-600 flex items-center gap-2 font-medium w-fit">
+          <Link to="/unidades" className="text-gray-500 hover:text-profgeo-600 flex items-center gap-2 font-medium w-fit">
             ← Voltar para Unidades
           </Link>
         </div>
 
-        <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">Vincular Coordenador</h2>
+        <div className="bg-white p-8 rounded-xl shadow-md border border-profgeo-100">
+          <h2 className="text-2xl font-bold mb-6 text-profgeo-900">Vincular Coordenador</h2>
           
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             
@@ -96,7 +96,7 @@ export function CadastrarCoordenador() {
               <select 
                 {...register("id_unidade", { required: true })} 
                 onChange={handleUnidadeChange} // <--- O Segredo está aqui
-                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 bg-white text-gray-900"
               >
                 <option value="">Selecione a Unidade...</option>
                 {unidades.map(uni => (
@@ -111,12 +111,12 @@ export function CadastrarCoordenador() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Professor Responsável
-                {buscandoProfs && <span className="text-blue-600 ml-2 text-xs">(Buscando...)</span>}
+                {buscandoProfs && <span className="text-profgeo-600 ml-2 text-xs">(Buscando...)</span>}
               </label>
               
               <select 
                 {...register("id_usuario", { required: true })} 
-                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 disabled:bg-gray-100"
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 bg-white text-gray-900 disabled:bg-gray-100"
                 disabled={professores.length === 0 || buscandoProfs}
               >
                 <option value="">
@@ -142,7 +142,7 @@ export function CadastrarCoordenador() {
                     type="number" 
                     defaultValue={new Date().getFullYear()}
                     {...register("ano_vigencia", { required: true })} 
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900"
                   />
                 </div>
                 <div>
