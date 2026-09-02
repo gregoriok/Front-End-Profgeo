@@ -75,14 +75,14 @@ export function EditarTurma() {
             <label className="block text-sm font-medium text-gray-700 mb-1">Nome da Turma</label>
             <input 
               {...register("nome", { required: true, minLength: 2 })}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
             />
           </div>
 
           {/* Turno */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Turno</label>
-            <select {...register("turno")} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500">
+            <select {...register("turno")} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900">
               <option value="Matutino">Matutino</option>
               <option value="Vespertino">Vespertino</option>
               <option value="Noturno">Noturno</option>
@@ -96,7 +96,7 @@ export function EditarTurma() {
             <input 
               type="number" 
               {...register("n_alunos", { required: true })}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
             />
           </div>
 
@@ -106,7 +106,7 @@ export function EditarTurma() {
             <input 
               type="number" 
               {...register("ano_letivo", { required: true })}
-              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
             />
           </div>
 

@@ -79,7 +79,7 @@ export function GestaoTurmas() {
               <input 
                 type="text" 
                 placeholder="Pesquise por turma, escola ou responsável..." 
-                className="w-full pl-10 p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full pl-10 p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-900 bg-white"
                 value={termoBusca}
                 onChange={(e) => setTermoBusca(e.target.value)}
               />
@@ -88,7 +88,7 @@ export function GestaoTurmas() {
           <div>
             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Turno</label>
             <select 
-              className="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 bg-white"
+              className="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
               value={filtroTurno}
               onChange={(e) => setFiltroTurno(e.target.value)}
             >

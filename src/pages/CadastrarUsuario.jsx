@@ -143,33 +143,33 @@ export function CadastrarUsuario() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
-                    <input {...register("nome", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" />
+                    <input {...register("nome", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" />
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" {...register("email", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" />
+                    <input type="email" {...register("email", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" />
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Senha</label>
-                    <input type="password" {...register("senha", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" />
+                    <input type="password" {...register("senha", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" />
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">CPF (somente números)</label>
-                    <input {...register("cpf", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" placeholder="000.000.000-00"/>
+                    <input {...register("cpf", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" placeholder="000.000.000-00"/>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
-                    <input {...register("telefone", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" />
+                    <input {...register("telefone", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" />
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Formação</label>
-                    <select {...register("formacao", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500">
+                    <select {...register("formacao", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900">
                         <option value="Graduação">Graduação</option>
                         <option value="Especialização">Especialização</option>
                         <option value="Mestrado">Mestrado</option>
@@ -183,7 +183,7 @@ export function CadastrarUsuario() {
                 <input
                   type="url"
                   {...register("url_lattes")}
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
                   placeholder="http://lattes.cnpq.br/..."
                 />
             </div>
@@ -193,7 +193,7 @@ export function CadastrarUsuario() {
               <label className="block text-sm font-medium text-gray-700 mb-1">Unidade Associada</label>
               <select 
                 {...register("id_unidade", { required: "Selecione uma unidade" })} 
-                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
                 disabled={loadingUnidades}
               >
                 <option value="">{loadingUnidades ? "Carregando..." : "Selecione sua Unidade"}</option>
@@ -253,7 +253,7 @@ export function CadastrarUsuario() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Professor Vinculado</label>
                   <select
                     {...register("id_professor_vinculado", { required: "Selecione um professor" })}
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-green-500"
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-green-500 text-gray-900"
                     disabled={!idUnidadeSelecionada || loadingProfessores}
                   >
                     <option value="">

@@ -96,7 +96,7 @@ export function CadastrarCoordenador() {
               <select 
                 {...register("id_unidade", { required: true })} 
                 onChange={handleUnidadeChange} // <--- O Segredo está aqui
-                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 bg-white"
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
               >
                 <option value="">Selecione a Unidade...</option>
                 {unidades.map(uni => (
@@ -116,7 +116,7 @@ export function CadastrarCoordenador() {
               
               <select 
                 {...register("id_usuario", { required: true })} 
-                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 bg-white disabled:bg-gray-100"
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 disabled:bg-gray-100"
                 disabled={professores.length === 0 || buscandoProfs}
               >
                 <option value="">
@@ -142,7 +142,7 @@ export function CadastrarCoordenador() {
                     type="number" 
                     defaultValue={new Date().getFullYear()}
                     {...register("ano_vigencia", { required: true })} 
-                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900"
                   />
                 </div>
                 <div>

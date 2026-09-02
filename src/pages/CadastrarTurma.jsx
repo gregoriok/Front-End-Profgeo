@@ -108,14 +108,14 @@ export function CadastrarTurma() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
-                  <select className="w-full p-2 border rounded bg-white" value={selectedUf} onChange={handleUfChange}>
+                  <select className="w-full p-2 border rounded bg-white text-gray-900" value={selectedUf} onChange={handleUfChange}>
                     <option value="">UF</option>
                     {ufs.map(uf => <option key={uf} value={uf}>{uf}</option>)}
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Município</label>
-                  <select className="w-full p-2 border rounded bg-white disabled:bg-gray-100" value={selectedCidade} onChange={handleCidadeChange} disabled={!selectedUf}>
+                  <select className="w-full p-2 border rounded bg-white text-gray-900 disabled:bg-gray-100" value={selectedCidade} onChange={handleCidadeChange} disabled={!selectedUf}>
                     <option value="">Cidade</option>
                     {cidades.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
@@ -127,7 +127,7 @@ export function CadastrarTurma() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Escola</label>
                 <input 
                   type="text"
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900 disabled:bg-gray-100"
                   placeholder={selectedCidade ? "Digite o nome..." : "Selecione a cidade"}
                   disabled={!selectedCidade}
                   value={termoBusca}
@@ -141,7 +141,7 @@ export function CadastrarTurma() {
                 {mostrarSugestoes && sugestoesEscolas.length > 0 && (
                   <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto mt-1">
                     {sugestoesEscolas.map((escola) => (
-                      <li key={escola.id_inep} onClick={() => selecionarEscola(escola)} className="p-2 hover:bg-blue-50 cursor-pointer text-sm border-b border-gray-100">
+                      <li key={escola.id_inep} onClick={() => selecionarEscola(escola)} className="p-2 hover:bg-blue-50 cursor-pointer text-sm text-gray-900 border-b border-gray-100">
                         <span className="font-bold block">{escola.nome}</span>
                       </li>
                     ))}
@@ -154,12 +154,12 @@ export function CadastrarTurma() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Nome da Turma</label>
-                <input {...register("nome", { required: true })} className="w-full p-2 border rounded" />
+                <input {...register("nome", { required: true })} className="w-full p-2 border rounded text-gray-900" />
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Turno</label>
-                  <select {...register("turno")} className="w-full p-2 border rounded">
+                  <select {...register("turno")} className="w-full p-2 border rounded bg-white text-gray-900">
                     <option value="Matutino">Matutino</option>
                     <option value="Vespertino">Vespertino</option>
                     <option value="Noturno">Noturno</option>
@@ -168,11 +168,11 @@ export function CadastrarTurma() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Alunos</label>
-                  <input type="number" {...register("n_alunos", { required: true })} className="w-full p-2 border rounded" />
+                  <input type="number" {...register("n_alunos", { required: true })} className="w-full p-2 border rounded text-gray-900" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Ano</label>
-                  <input type="number" defaultValue={new Date().getFullYear()} {...register("ano_letivo", { required: true })} className="w-full p-2 border rounded" />
+                  <input type="number" defaultValue={new Date().getFullYear()} {...register("ano_letivo", { required: true })} className="w-full p-2 border rounded text-gray-900" />
                 </div>
               </div>
             </div>

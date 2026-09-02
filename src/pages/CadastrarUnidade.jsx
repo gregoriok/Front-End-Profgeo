@@ -37,13 +37,13 @@ export function CadastrarUnidade() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Nome da Unidade</label>
-                <input {...register("nome_unidade", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" />
+                <input {...register("nome_unidade", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" />
             </div>
 
             <div className="grid grid-cols-3 gap-4">
                 <div className="col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-1">Município</label>
-                    <input {...register("municipio", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500" />
+                    <input {...register("municipio", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 text-gray-900" />
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">UF</label>

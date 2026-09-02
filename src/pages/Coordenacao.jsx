@@ -25,10 +25,10 @@ export function Coordenacao() {
       <div className="border p-4 rounded shadow">
         <h3 className="text-xl font-bold mb-4 text-green-700">Adicionar Coordenação</h3>
         <form onSubmit={submitAdd(onAdd)} className="space-y-3">
-            <input {...registerAdd("id_unidade")} placeholder="ID Unidade (UUID)" className="w-full p-2 border rounded" />
-            <input {...registerAdd("id_usuario")} placeholder="ID Usuário (UUID)" className="w-full p-2 border rounded" />
-            <input type="number" {...registerAdd("ano_vigencia")} placeholder="Ano Vigência" className="w-full p-2 border rounded" />
-            <select {...registerAdd("coordenador_type")} className="w-full p-2 border rounded">
+            <input {...registerAdd("id_unidade")} placeholder="ID Unidade (UUID)" className="w-full p-2 border rounded text-gray-900 bg-white" />
+            <input {...registerAdd("id_usuario")} placeholder="ID Usuário (UUID)" className="w-full p-2 border rounded text-gray-900 bg-white" />
+            <input type="number" {...registerAdd("ano_vigencia")} placeholder="Ano Vigência" className="w-full p-2 border rounded text-gray-900 bg-white" />
+            <select {...registerAdd("coordenador_type")} className="w-full p-2 border rounded text-gray-900 bg-white">
                 <option value="Coordenador">Coordenador</option>
                 <option value="Vice_Coordenador">Vice Coordenador</option>
             </select>
@@ -40,9 +40,9 @@ export function Coordenacao() {
       <div className="border p-4 rounded shadow">
         <h3 className="text-xl font-bold mb-4 text-red-700">Remover Coordenação</h3>
         <form onSubmit={submitDel(onRemove)} className="space-y-3">
-            <input {...registerDel("id_unidade")} placeholder="ID Unidade (UUID)" className="w-full p-2 border rounded" />
-            <input {...registerDel("id_usuario")} placeholder="ID Usuário (UUID)" className="w-full p-2 border rounded" />
-            <input type="number" {...registerDel("ano_vigencia")} placeholder="Ano Vigência" className="w-full p-2 border rounded" />
+            <input {...registerDel("id_unidade")} placeholder="ID Unidade (UUID)" className="w-full p-2 border rounded text-gray-900 bg-white" />
+            <input {...registerDel("id_usuario")} placeholder="ID Usuário (UUID)" className="w-full p-2 border rounded text-gray-900 bg-white" />
+            <input type="number" {...registerDel("ano_vigencia")} placeholder="Ano Vigência" className="w-full p-2 border rounded text-gray-900 bg-white" />
             <button className="w-full bg-red-600 text-white p-2 rounded">Remover</button>
         </form>
       </div>
