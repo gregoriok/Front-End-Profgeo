@@ -19,6 +19,10 @@ export const unidadeService = {
   getAll: async () => {
     const response = await api.get('/api/unidade_associada');
     return response.data;
+  },
+  getDetalhes: async (idUnidade) => {
+    const response = await api.get(`/api/unidade_associada/${idUnidade}/detalhes`);
+    return response.data;
   }
 };
 
@@ -71,7 +75,11 @@ export const turmaService = {
   },
 
   getAll: async () => {
-    const response = await api.get('/api/turma/'); 
+    const response = await api.get('/api/turma/');
+    return response.data;
+  },
+  getByProfessor: async () => {
+    const response = await api.get('/api/turma/professor/');
     return response.data;
   },
 

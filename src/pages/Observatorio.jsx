@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { MapContainer, TileLayer, WMSTileLayer, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -56,6 +57,7 @@ function WMSFeatureInfo() {
 
 export function Observatorio() {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-profgeo-50 flex flex-col">
@@ -71,18 +73,29 @@ export function Observatorio() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => navigate('/')}
-              className="text-gray-500 hover:text-profgeo-600 font-medium text-sm px-4 py-2 rounded-lg transition-colors"
-            >
-              Pagina Inicial
-            </button>
-            <button
-              onClick={() => navigate('/login')}
-              className="text-white bg-profgeo-600 hover:bg-profgeo-700 font-medium text-sm px-4 py-2 rounded-lg transition-colors shadow-sm"
-            >
-              Acessar o Sistema
-            </button>
+            {user ? (
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="text-white bg-profgeo-600 hover:bg-profgeo-700 font-medium text-sm px-4 py-2 rounded-lg transition-colors shadow-sm"
+              >
+                Voltar ao Painel
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate('/')}
+                  className="text-gray-500 hover:text-profgeo-600 font-medium text-sm px-4 py-2 rounded-lg transition-colors"
+                >
+                  Pagina Inicial
+                </button>
+                <button
+                  onClick={() => navigate('/login')}
+                  className="text-white bg-profgeo-600 hover:bg-profgeo-700 font-medium text-sm px-4 py-2 rounded-lg transition-colors shadow-sm"
+                >
+                  Acessar o Sistema
+                </button>
+              </>
+            )}
           </div>
         </div>
       </header>

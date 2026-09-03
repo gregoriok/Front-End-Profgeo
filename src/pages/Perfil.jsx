@@ -3,18 +3,24 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { usuarioService } from '../api/services';
 
-const FIELD_LABELS = {
+const BASE_FIELDS = {
   nome: 'Nome completo',
   email: 'Email',
   telefone: 'Telefone',
   cpf: 'CPF',
   formacao: 'Formação',
+  url_lattes: 'Currículo Lattes'
+};
+
+const PROFESSOR_FIELDS = {
   area_atuacao: 'Área de atuação',
   ano_ingresso: 'Ano de ingresso',
-  professor_type: 'Tipo de professor',
+  professor_type: 'Tipo de professor'
+};
+
+const ALUNO_FIELDS = {
   data_de_ingresso: 'Data de ingresso',
-  data_de_defesa: 'Data de defesa',
-  url_lattes: 'Currículo Lattes'
+  data_de_defesa: 'Data de defesa'
 };
 
 const EDITABLE_FIELDS = ['data_de_defesa', 'url_lattes'];
@@ -56,9 +62,15 @@ export function Perfil() {
     { label: 'Aluno', value: user.is_aluno }
   ];
 
-  const fieldsToDisplay = Object.keys(FIELD_LABELS).map((key) => ({
+  const fieldLabels = {
+    ...BASE_FIELDS,
+    ...(user.is_professor ? PROFESSOR_FIELDS : {}),
+    ...(user.is_aluno ? ALUNO_FIELDS : {})
+  };
+
+  const fieldsToDisplay = Object.keys(fieldLabels).map((key) => ({
     key,
-    label: FIELD_LABELS[key],
+    label: fieldLabels[key],
     value: user[key]
   }));
 

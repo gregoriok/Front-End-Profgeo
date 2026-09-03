@@ -18,6 +18,7 @@ export function CadastrarTurma() {
   const [buscando, setBuscando] = useState(false);
   const [selectedUf, setSelectedUf] = useState('');
   const [selectedCidade, setSelectedCidade] = useState('');
+  const [escolaSelecionada, setEscolaSelecionada] = useState(false);
 
   // 1. Carregar Estados
   useEffect(() => {
@@ -26,7 +27,7 @@ export function CadastrarTurma() {
 
   // 2. Debounce Busca Escola
   useEffect(() => {
-    if (!selectedUf || !selectedCidade || termoBusca.length < 3) {
+    if (!selectedUf || !selectedCidade || termoBusca.length < 3 || escolaSelecionada) {
       setSugestoesEscolas([]);
       return;
     }
@@ -59,6 +60,7 @@ export function CadastrarTurma() {
   };
 
   const selecionarEscola = (escola) => {
+    setEscolaSelecionada(true);
     setTermoBusca(escola.nome);
     setValue('id_escola', escola.id_inep);
     setMostrarSugestoes(false);
@@ -132,7 +134,9 @@ export function CadastrarTurma() {
                   disabled={!selectedCidade}
                   value={termoBusca}
                   onChange={(e) => {
+                    setEscolaSelecionada(false);
                     setTermoBusca(e.target.value);
+                    setValue('id_escola', '');
                     if(e.target.value.length < 3) setMostrarSugestoes(false);
                   }}
                 />

@@ -22,6 +22,27 @@ function PrivateRoute({ children }) {
   return token ? children : <Navigate to="/login" />;
 }
 
+// Rota que exige ser professor
+function ProfessorRoute({ children }) {
+  const { user } = useAuth();
+  if (!user?.is_professor) return <Navigate to="/dashboard" />;
+  return children;
+}
+
+// Rota que bloqueia alunos
+function NotAlunoRoute({ children }) {
+  const { user } = useAuth();
+  if (user?.is_aluno && !user?.is_professor && !user?.is_coordenador && !user?.is_admin) return <Navigate to="/dashboard" />;
+  return children;
+}
+
+// Rota que exige gestor (admin/coord nacional/coord)
+function GestorRoute({ children }) {
+  const { user } = useAuth();
+  if (!user?.is_admin && !user?.is_coordenador_nacional && !user?.is_coordenador) return <Navigate to="/dashboard" />;
+  return children;
+}
+
 function App() {
   return (
     <BrowserRouter>
@@ -52,8 +73,8 @@ function App() {
               <EditarTurma />
             </PrivateRoute>
           } />
-          <Route path="/unidades" element={<PrivateRoute><ListarUnidades /></PrivateRoute>} />
-          <Route path="/unidades/nova" element={<PrivateRoute><CadastrarUnidade /></PrivateRoute>} />
+          <Route path="/unidades" element={<PrivateRoute><GestorRoute><ListarUnidades /></GestorRoute></PrivateRoute>} />
+          <Route path="/unidades/nova" element={<PrivateRoute><GestorRoute><CadastrarUnidade /></GestorRoute></PrivateRoute>} />
 
           {/* Usuario */}
           <Route path="/usuarios/novo" element={<CadastrarUsuario />} />
@@ -68,10 +89,12 @@ function App() {
 
           {/* Turmas */}
           <Route path="/turmas" element={<PrivateRoute><ListarTurmas /></PrivateRoute>} />
-          <Route path="/turmas/nova" element={<PrivateRoute><CadastrarTurma /></PrivateRoute>} />
+          <Route path="/turmas/nova" element={<PrivateRoute><ProfessorRoute><CadastrarTurma /></ProfessorRoute></PrivateRoute>} />
           <Route path="/turmas/gestao" element={
             <PrivateRoute>
-              <GestaoTurmas />
+              <NotAlunoRoute>
+                <GestaoTurmas />
+              </NotAlunoRoute>
             </PrivateRoute>
           }/>
 

@@ -13,6 +13,7 @@ export function GestaoTurmas() {
 
   const isSuperUser = user?.is_admin || user?.is_coordenador_nacional;
   const isCoordenadorLocal = user?.is_coordenador;
+  const isProfessor = user?.is_professor;
 
   useEffect(() => {
     async function carregarTurmas() {
@@ -20,8 +21,10 @@ export function GestaoTurmas() {
         let dados = [];
         if (isSuperUser) {
           dados = await turmaService.getAll();
-        } else if (user?.id_unidade && isCoordenadorLocal) {
+        } else if (isCoordenadorLocal && user?.id_unidade) {
           dados = await turmaService.getByUnidade(user.id_unidade);
+        } else if (isProfessor) {
+          dados = await turmaService.getByProfessor();
         }
         setTurmas(Array.isArray(dados) ? dados : []);
       } catch (error) {
@@ -31,7 +34,7 @@ export function GestaoTurmas() {
       }
     }
     if (user) carregarTurmas();
-  }, [user, isSuperUser, isCoordenadorLocal]);
+  }, [user, isSuperUser, isCoordenadorLocal, isProfessor]);
 
   const turmasFiltradas = useMemo(() => {
     return turmas.filter((turma) => {
@@ -65,7 +68,7 @@ export function GestaoTurmas() {
              </Link>
              <h2 className="text-3xl font-bold text-profgeo-900">Gestão de Turmas</h2>
              <p className="text-gray-500">
-               {isSuperUser ? "Visão Geral do Sistema (Todas as Turmas)" : "Turmas vinculadas aos pesquisadores da sua Unidade."}
+               {isSuperUser ? "Visão Geral do Sistema (Todas as Turmas)" : isCoordenadorLocal ? "Turmas vinculadas aos pesquisadores da sua Unidade." : "Turmas vinculadas aos seus alunos."}
              </p>
           </div>
         </div>
