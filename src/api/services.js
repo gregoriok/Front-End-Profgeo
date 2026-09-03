@@ -27,6 +27,10 @@ export const usuarioService = {
   create: async (data) => {
     const response = await api.post('/api/cadastro', data);
     return response.data;
+  },
+  updatePerfil: async (data) => {
+    const response = await api.put('/api/perfil', data);
+    return response.data;
   }
 };
 
