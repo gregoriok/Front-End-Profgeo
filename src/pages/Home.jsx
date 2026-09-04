@@ -11,7 +11,7 @@ export function Home() {
   };
 
   const isGestor = user?.is_admin || user?.is_coordenador_nacional || user?.is_coordenador;
-  const canSeeTurmas = user?.is_professor || user?.is_aluno;
+  const canSeeTurmas = user?.is_aluno && !user?.is_professor;
   const canSeeGestao = !user?.is_aluno; // todos menos aluno
   const canSeeUnidades = isGestor;
 
@@ -71,7 +71,7 @@ export function Home() {
                 </svg>
               </div>
               <h2 className="text-xl font-bold text-profgeo-900 mb-2">Minhas Turmas</h2>
-              <p className="text-gray-500 text-sm">Acesse as turmas onde voce esta matriculado ou leciona.</p>
+              <p className="text-gray-500 text-sm">Acesse as turmas onde voce esta matriculado.</p>
             </div>
           )}
 

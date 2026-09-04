@@ -22,6 +22,13 @@ function PrivateRoute({ children }) {
   return token ? children : <Navigate to="/login" />;
 }
 
+// Rota exclusiva para alunos (bloqueia professores)
+function AlunoRoute({ children }) {
+  const { user } = useAuth();
+  if (!user?.is_aluno || user?.is_professor) return <Navigate to="/dashboard" />;
+  return children;
+}
+
 // Rota que exige ser professor
 function ProfessorRoute({ children }) {
   const { user } = useAuth();
@@ -88,7 +95,7 @@ function App() {
           } />
 
           {/* Turmas */}
-          <Route path="/turmas" element={<PrivateRoute><ListarTurmas /></PrivateRoute>} />
+          <Route path="/turmas" element={<PrivateRoute><AlunoRoute><ListarTurmas /></AlunoRoute></PrivateRoute>} />
           <Route path="/turmas/nova" element={<PrivateRoute><ProfessorRoute><CadastrarTurma /></ProfessorRoute></PrivateRoute>} />
           <Route path="/turmas/gestao" element={
             <PrivateRoute>
