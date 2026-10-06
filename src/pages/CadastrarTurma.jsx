@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate, Link } from 'react-router-dom'; // <--- Import Link
+import { useNavigate, Link } from 'react-router-dom';
 import { turmaService, locaisService } from '../api/services';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../components/Toast';
+import { BackButton } from '../components/BackButton';
+import { NIVEIS_ENSINO, ETAPAS_POR_NIVEL } from '../utils/niveisEnsino';
 
 export function CadastrarTurma() {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm();
+  const { register, handleSubmit, setValue, watch, formState: { errors, isSubmitting } } = useForm();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { addToast } = useToast();
 
   // Estados
   const [ufs, setUfs] = useState([]);
@@ -19,6 +23,12 @@ export function CadastrarTurma() {
   const [selectedUf, setSelectedUf] = useState('');
   const [selectedCidade, setSelectedCidade] = useState('');
   const [escolaSelecionada, setEscolaSelecionada] = useState(false);
+  const [buscaSemResultado, setBuscaSemResultado] = useState(false);
+
+  const nivelSelecionado = watch('nivel_ensino');
+  const termo = termoBusca.trim();
+  // Termo só com dígitos = busca pelo código INEP, que dispensa UF e município
+  const buscaPorInep = /^\d+$/.test(termo);
 
   // 1. Carregar Estados
   useEffect(() => {
@@ -27,16 +37,19 @@ export function CadastrarTurma() {
 
   // 2. Debounce Busca Escola
   useEffect(() => {
-    if (!selectedUf || !selectedCidade || termoBusca.length < 3 || escolaSelecionada) {
+    setBuscaSemResultado(false);
+    const temLocal = selectedUf && selectedCidade;
+    if (termo.length < 3 || escolaSelecionada || (!buscaPorInep && !temLocal)) {
       setSugestoesEscolas([]);
       return;
     }
     const delayDebounce = setTimeout(async () => {
       setBuscando(true);
       try {
-        const resultados = await locaisService.buscarEscolas(selectedUf, selectedCidade, termoBusca);
+        const resultados = await locaisService.buscarEscolas(selectedUf, selectedCidade, termo);
         setSugestoesEscolas(resultados);
         setMostrarSugestoes(true);
+        setBuscaSemResultado(resultados.length === 0);
       } catch (error) { console.error(error); } 
       finally { setBuscando(false); }
     }, 500);
@@ -66,6 +79,11 @@ export function CadastrarTurma() {
     setMostrarSugestoes(false);
   };
 
+  // TODO: enviar e-mail para o time de suporte (funcionalidade ainda não implementada)
+  const acionarSuporte = () => {
+    addToast('Em breve você poderá acionar o suporte por aqui.', 'info');
+  };
+
   const onSubmit = async (data) => {
     try {
       const payload = {
@@ -76,12 +94,18 @@ export function CadastrarTurma() {
         id_escola: Number(data.id_escola)
       };
 
-      if (!payload.id_escola) return alert("Selecione uma escola.");
-      
+      if (!payload.id_escola) {
+        addToast("Selecione uma escola.", 'warning');
+        return;
+      }
+
       await turmaService.create(payload);
-      alert('Turma criada com sucesso!');
+      addToast('Turma criada com sucesso!', 'success');
       navigate('/turmas');
-    } catch (error) { console.error(error); alert('Erro ao criar turma.'); }
+    } catch (error) {
+      console.error(error);
+      addToast(error.response?.data?.detail || 'Erro ao criar turma.', 'error');
+    }
   };
 
   return (
@@ -90,12 +114,7 @@ export function CadastrarTurma() {
         
         {/* BOTÃO VOLTAR */}
         <div className="mb-6">
-          <Link to="/turmas" className="text-gray-500 hover:text-profgeo-600 flex items-center gap-2 font-medium transition-colors w-fit">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Voltar para Minhas Turmas
-          </Link>
+          <BackButton to="/turmas" label="Voltar para Minhas Escolas" />
         </div>
 
         {/* CARTÃO DO FORMULÁRIO */}
@@ -126,12 +145,11 @@ export function CadastrarTurma() {
 
               {/* Autocomplete */}
               <div className="relative">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Escola</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Escola (nome ou código INEP)</label>
                 <input 
                   type="text"
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900 disabled:bg-gray-100"
-                  placeholder={selectedCidade ? "Digite o nome..." : "Selecione a cidade"}
-                  disabled={!selectedCidade}
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900"
+                  placeholder={selectedCidade ? "Digite o nome ou o código INEP..." : "Digite o código INEP, ou selecione a cidade para buscar por nome"}
                   value={termoBusca}
                   onChange={(e) => {
                     setEscolaSelecionada(false);
@@ -147,9 +165,29 @@ export function CadastrarTurma() {
                     {sugestoesEscolas.map((escola) => (
                       <li key={escola.id_inep} onClick={() => selecionarEscola(escola)} className="p-2 hover:bg-profgeo-50 cursor-pointer text-sm text-gray-900 border-b border-gray-100">
                         <span className="font-bold block">{escola.nome}</span>
+                        <span className="text-xs text-gray-500">INEP {escola.id_inep} · {escola.municipio}/{escola.uf}</span>
                       </li>
                     ))}
                   </ul>
+                )}
+
+                {buscando && <p className="text-xs text-gray-500 mt-1">Buscando...</p>}
+
+                {termo.length >= 3 && !buscaPorInep && !selectedCidade && (
+                  <p className="text-xs text-gray-500 mt-1">Para buscar por nome, selecione o estado e o município.</p>
+                )}
+
+                {buscaSemResultado && !buscando && (
+                  <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                    <p className="text-sm text-yellow-800">Nenhuma escola encontrada. Não achou a sua escola?</p>
+                    <button
+                      type="button"
+                      onClick={acionarSuporte}
+                      className="px-4 py-2 text-sm font-bold text-white bg-profgeo-600 rounded-lg hover:bg-profgeo-700 transition-colors whitespace-nowrap"
+                    >
+                      Acionar o suporte
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
@@ -159,6 +197,29 @@ export function CadastrarTurma() {
               <div>
                 <label className="block text-sm font-medium text-gray-700">Nome da Turma</label>
                 <input {...register("nome", { required: true })} className="w-full p-2 border rounded text-gray-900" />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Nível de Ensino</label>
+                  <select
+                    {...register("nivel_ensino", { required: true, onChange: () => setValue('etapa_ensino', '') })}
+                    className="w-full p-2 border rounded bg-white text-gray-900"
+                  >
+                    <option value="">Selecione</option>
+                    {NIVEIS_ENSINO.map(nivel => <option key={nivel} value={nivel}>{nivel}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Etapa</label>
+                  <select
+                    {...register("etapa_ensino", { required: true })}
+                    disabled={!nivelSelecionado}
+                    className="w-full p-2 border rounded bg-white text-gray-900 disabled:bg-gray-100"
+                  >
+                    <option value="">{nivelSelecionado ? "Selecione" : "Selecione o nível primeiro"}</option>
+                    {(ETAPAS_POR_NIVEL[nivelSelecionado] || []).map(etapa => <option key={etapa} value={etapa}>{etapa}</option>)}
+                  </select>
+                </div>
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div>
@@ -181,8 +242,19 @@ export function CadastrarTurma() {
               </div>
             </div>
 
-            <button type="submit" className="w-full bg-profgeo-600 text-white font-bold py-3 rounded-lg hover:bg-profgeo-700 transition">
-              Salvar Turma
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-profgeo-600 text-white font-bold py-3 rounded-lg hover:bg-profgeo-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="inline-block animate-spin">⏳</span>
+                  Salvando...
+                </>
+              ) : (
+                'Salvar Turma'
+              )}
             </button>
           </form>
         </div>

@@ -1,19 +1,24 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
-import { EditarTurma } from './pages/EditarTurma';
-import { Login } from './pages/Login';
-import { LandingPage } from './pages/LandingPage';
-import { Home } from './pages/Home';
-import { Perfil } from './pages/Perfil';
-import { CadastrarUnidade } from './pages/CadastrarUnidade';
-import { ListarUnidades } from './pages/ListarUnidades';
-import { CadastrarUsuario } from './pages/CadastrarUsuario';
-import { Coordenacao } from './pages/Coordenacao';
-import { CadastrarTurma } from './pages/CadastrarTurma';
-import { ListarTurmas } from './pages/ListarTurmas';
-import { GestaoTurmas } from './pages/GestaoTurmas';
-import {CadastrarCoordenador} from './pages/CadastrarCoordenador'
-import { Observatorio } from './pages/Observatorio';
+import { ToastProvider } from './components/Toast';
+import { SkeletonLoader } from './components/SkeletonLoader';
+
+// Lazy load das páginas para code splitting
+const Login = lazy(() => import('./pages/Login').then(m => ({ default: m.Login })));
+const LandingPage = lazy(() => import('./pages/LandingPage').then(m => ({ default: m.LandingPage })));
+const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
+const Perfil = lazy(() => import('./pages/Perfil').then(m => ({ default: m.Perfil })));
+const EditarTurma = lazy(() => import('./pages/EditarTurma').then(m => ({ default: m.EditarTurma })));
+const CadastrarUnidade = lazy(() => import('./pages/CadastrarUnidade').then(m => ({ default: m.CadastrarUnidade })));
+const ListarUnidades = lazy(() => import('./pages/ListarUnidades').then(m => ({ default: m.ListarUnidades })));
+const CadastrarUsuario = lazy(() => import('./pages/CadastrarUsuario').then(m => ({ default: m.CadastrarUsuario })));
+const Coordenacao = lazy(() => import('./pages/Coordenacao').then(m => ({ default: m.Coordenacao })));
+const CadastrarTurma = lazy(() => import('./pages/CadastrarTurma').then(m => ({ default: m.CadastrarTurma })));
+const ListarTurmas = lazy(() => import('./pages/ListarTurmas').then(m => ({ default: m.ListarTurmas })));
+const GestaoTurmas = lazy(() => import('./pages/GestaoTurmas').then(m => ({ default: m.GestaoTurmas })));
+const CadastrarCoordenador = lazy(() => import('./pages/CadastrarCoordenador').then(m => ({ default: m.CadastrarCoordenador })));
+const Observatorio = lazy(() => import('./pages/Observatorio').then(m => ({ default: m.Observatorio })));
 
 // Um componente simples para proteger rotas privadas
 function PrivateRoute({ children }) {
@@ -50,10 +55,19 @@ function GestorRoute({ children }) {
   return children;
 }
 
+// Rota que permite alunos ou professores
+function AlunoOrProfessorRoute({ children }) {
+  const { user } = useAuth();
+  if (!user?.is_aluno && !user?.is_professor) return <Navigate to="/dashboard" />;
+  return children;
+}
+
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <ToastProvider>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin text-4xl">⏳</div></div>}>
         <Routes>
           {/* Rotas Publicas */}
           <Route path="/" element={<LandingPage />} />
@@ -96,7 +110,7 @@ function App() {
 
           {/* Turmas */}
           <Route path="/turmas" element={<PrivateRoute><AlunoRoute><ListarTurmas /></AlunoRoute></PrivateRoute>} />
-          <Route path="/turmas/nova" element={<PrivateRoute><ProfessorRoute><CadastrarTurma /></ProfessorRoute></PrivateRoute>} />
+          <Route path="/turmas/nova" element={<PrivateRoute><AlunoOrProfessorRoute><CadastrarTurma /></AlunoOrProfessorRoute></PrivateRoute>} />
           <Route path="/turmas/gestao" element={
             <PrivateRoute>
               <NotAlunoRoute>
@@ -106,6 +120,8 @@ function App() {
           }/>
 
         </Routes>
+        </Suspense>
+        </ToastProvider>
       </AuthProvider>
     </BrowserRouter>
   );

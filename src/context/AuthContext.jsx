@@ -45,6 +45,7 @@ export function AuthProvider({ children }) {
         professor_type: decoded.professor_type,
         data_de_ingresso: decoded.data_de_ingresso,
         data_de_defesa: decoded.data_de_defesa,
+        titulo_dissertacao: decoded.titulo_dissertacao,
         url_lattes: decoded.url_lattes,
         
         // Permissões

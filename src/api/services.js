@@ -35,6 +35,10 @@ export const usuarioService = {
   updatePerfil: async (data) => {
     const response = await api.put('/api/perfil', data);
     return response.data;
+  },
+  trocarSenha: async (senhaAtual, novaSenha) => {
+    const response = await api.put('/api/perfil/senha', { senha_atual: senhaAtual, nova_senha: novaSenha });
+    return response.data;
   }
 };
 
@@ -102,10 +106,13 @@ export const locaisService = {
     const response = await api.get(`/api/municipios/${uf}`);
     return response.data;
   },
-  // Busca escolas por UF e Município
+  // Busca escolas por UF e Município (nome) ou pelo código INEP (termo numérico,
+  // caso em que UF e Município são opcionais)
   buscarEscolas: async (uf, municipio, termo = "") => {
-  // Passamos o 'termo' nos params apenas se ele tiver valor
-  const params = { uf, municipio };
+  // Passamos cada filtro nos params apenas se ele tiver valor
+  const params = {};
+  if (uf) params.uf = uf;
+  if (municipio) params.municipio = municipio;
   if (termo) {
     params.termo = termo;
   }

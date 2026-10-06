@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // <--- Import Link
+import { Link } from 'react-router-dom';
 import { turmaService } from '../api/services';
 import { useAuth } from '../context/AuthContext';
+import { BackButton } from '../components/BackButton';
 
 export function ListarTurmas() {
   const [turmas, setTurmas] = useState([]);
@@ -18,19 +19,21 @@ export function ListarTurmas() {
 
       {/* Botão de Voltar */}
       <div className="max-w-6xl mx-auto mb-4">
-        <Link to="/dashboard" className="text-gray-500 hover:text-profgeo-600 flex items-center gap-1 font-medium transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Voltar para Home
-        </Link>
+        <BackButton to="/dashboard" />
       </div>
 
       <div className="flex justify-between items-center mb-8 max-w-6xl mx-auto">
         <div>
-          <h2 className="text-3xl font-bold text-profgeo-900">Minhas Turmas</h2>
+          <h2 className="text-3xl font-bold text-profgeo-900">Minhas Escolas</h2>
           <p className="text-gray-500 mt-1">Turmas onde você está matriculado</p>
         </div>
+        <Link
+          to="/turmas/nova"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-profgeo-600 text-white font-bold rounded-lg hover:bg-profgeo-700 transition-colors shadow-md"
+        >
+          <span>➕</span>
+          <span>Nova Turma</span>
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
