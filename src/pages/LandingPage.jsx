@@ -31,7 +31,7 @@ export function LandingPage() {
             </h1>
             <p className="text-lg text-gray-600 mb-4 leading-relaxed">
               Plataforma de gestao e monitoramento do Programa de Pos-Graduacao em Geografia
-              em Rede Nacional - PROFGEO. Acompanhe turmas, unidades associadas e visualize
+              em Rede Nacional - PROFGEO. Acompanhe turmas, instituições associadas e visualize
               dados georreferenciados das escolas participantes do programa.
             </p>
             <p className="text-gray-500 mb-8 leading-relaxed">
@@ -84,7 +84,7 @@ export function LandingPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
               </div>
-              <h3 className="text-lg font-bold text-profgeo-900 mb-2">Unidades Associadas</h3>
+              <h3 className="text-lg font-bold text-profgeo-900 mb-2">Instituições Associadas</h3>
               <p className="text-gray-500 text-sm">Gerencie as unidades e polos vinculados ao PROFGEO em todo o Brasil.</p>
             </div>
 

@@ -3,6 +3,9 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { usuarioService, unidadeService, professorService } from '../api/services';
 
+const RACA_COR_OPCOES = ['Branca', 'Preta', 'Parda', 'Amarela', 'Indígena', 'Prefiro não declarar'];
+const GENERO_OPCOES = ['Mulher', 'Homem', 'Não binário', 'Outro', 'Prefiro não declarar'];
+
 export function CadastrarUsuario() {
   const { register, handleSubmit, watch, reset } = useForm();
   const navigate = useNavigate();
@@ -62,9 +65,13 @@ export function CadastrarUsuario() {
         senha: data.senha,
         telefone: data.telefone,
         cpf: data.cpf,
-        formacao: data.formacao,
+        // Professor ProfGeo é sempre Doutorado (campo oculto no formulário)
+        formacao: tipoUsuario === 'professor' ? 'Doutorado' : data.formacao,
         id_unidade: data.id_unidade,
-        url_lattes: data.url_lattes || null
+        url_lattes: data.url_lattes || null,
+        raca_cor: data.raca_cor,
+        etnia: data.etnia || null,
+        genero: data.genero
       };
 
       let payloadFinal = {};
@@ -86,6 +93,7 @@ export function CadastrarUsuario() {
           is_aluno: true,
           data_de_ingresso: data.data_de_ingresso,
           data_de_defesa: data.data_de_defesa || null,
+          titulo_dissertacao: data.titulo_dissertacao || null,
           id_professor_vinculado: data.id_professor_vinculado
         };
       }
@@ -122,7 +130,7 @@ export function CadastrarUsuario() {
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            Sou Aluno
+            Aluno ou Egresso
           </button>
           <button
             type="button"
@@ -133,7 +141,7 @@ export function CadastrarUsuario() {
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            Sou Professor
+            Professor ProfGeo
           </button>
         </div>
 
@@ -167,13 +175,37 @@ export function CadastrarUsuario() {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
                     <input {...register("telefone", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900" />
                 </div>
+                {/* Formação fica oculta para professor: é fixada como Doutorado no envio */}
+                {tipoUsuario !== 'professor' && (
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Formação</label>
-                    <select {...register("formacao", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900">
+                    <select {...register("formacao", { required: tipoUsuario !== 'professor' })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900">
                         <option value="Graduação">Graduação</option>
                         <option value="Especialização">Especialização</option>
                         <option value="Mestrado">Mestrado</option>
                         <option value="Doutorado">Doutorado</option>
+                    </select>
+                </div>
+                )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Raça/Cor</label>
+                    <select {...register("raca_cor", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900">
+                        <option value="">Selecione</option>
+                        {RACA_COR_OPCOES.map(opcao => <option key={opcao} value={opcao}>{opcao}</option>)}
+                    </select>
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Etnia (opcional)</label>
+                    <input {...register("etnia", { maxLength: 100 })} maxLength={100} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900" placeholder="Ex: Guarani, Quilombola" />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Gênero</label>
+                    <select {...register("genero", { required: true })} className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900">
+                        <option value="">Selecione</option>
+                        {GENERO_OPCOES.map(opcao => <option key={opcao} value={opcao}>{opcao}</option>)}
                     </select>
                 </div>
             </div>
@@ -190,13 +222,13 @@ export function CadastrarUsuario() {
 
             {/* --- SELEÇÃO DE UNIDADE (Dinâmica) --- */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Unidade Associada</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Instituição Associada</label>
               <select 
-                {...register("id_unidade", { required: "Selecione uma unidade" })} 
+                {...register("id_unidade", { required: "Selecione uma instituição" })} 
                 className="w-full p-2 border rounded focus:ring-2 focus:ring-profgeo-400 text-gray-900"
                 disabled={loadingUnidades}
               >
-                <option value="">{loadingUnidades ? "Carregando..." : "Selecione sua Unidade"}</option>
+                <option value="">{loadingUnidades ? "Carregando..." : "Selecione sua Instituição"}</option>
                 {unidades.map(uni => (
                   <option key={uni.id || uni.id_unidade} value={uni.id || uni.id_unidade}>
                     {uni.nome_unidade} - {uni.municipio}/{uni.estado}
@@ -210,15 +242,15 @@ export function CadastrarUsuario() {
             {/* --- CAMPOS ESPECÍFICOS: PROFESSOR --- */}
             {tipoUsuario === 'professor' && (
               <div className="bg-profgeo-50 p-4 rounded-lg border border-profgeo-100 space-y-4 animate-fade-in">
-                <h3 className="text-sm font-bold text-profgeo-800 uppercase">Dados do Professor</h3>
+                <h3 className="text-sm font-bold text-profgeo-800 uppercase">Dados do Docente</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Área de Atuação</label>
-                      <input {...register("area_atuacao", { required: true })} className="w-full p-2 border rounded" placeholder="Ex: Geografia Física"/>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Instituição de Vínculo</label>
+                      <input {...register("area_atuacao", { required: true, maxLength: 100 })} maxLength={100} className="w-full p-2 border rounded" placeholder="Ex: Universidade Federal de Santa Maria"/>
                    </div>
                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Ano de Ingresso</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Ano de Ingresso ProfGeo</label>
                       <input type="number" {...register("ano_ingresso", { required: true })} className="w-full p-2 border rounded" placeholder="Ex: 2023"/>
                    </div>
                 </div>
@@ -244,24 +276,34 @@ export function CadastrarUsuario() {
                       <input type="date" {...register("data_de_ingresso", { required: true })} className="w-full p-2 border rounded"/>
                    </div>
                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Previsão de Defesa</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Data de Defesa ou Previsão</label>
                       <input type="date" {...register("data_de_defesa")} className="w-full p-2 border rounded"/>
                    </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Professor Vinculado</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Título da Dissertação</label>
+                  <input
+                    {...register("titulo_dissertacao", { maxLength: 250 })}
+                    maxLength={250}
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-green-500 text-gray-900"
+                    placeholder="Até 250 caracteres"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Professor Orientador</label>
                   <select
-                    {...register("id_professor_vinculado", { required: "Selecione um professor" })}
+                    {...register("id_professor_vinculado", { required: "Selecione um professor orientador" })}
                     className="w-full p-2 border rounded focus:ring-2 focus:ring-green-500 text-gray-900"
                     disabled={!idUnidadeSelecionada || loadingProfessores}
                   >
                     <option value="">
                       {!idUnidadeSelecionada
-                        ? "Selecione uma unidade primeiro"
+                        ? "Selecione uma instituição primeiro"
                         : loadingProfessores
                         ? "Carregando professores..."
-                        : "Selecione o professor"}
+                        : "Selecione o professor orientador"}
                     </option>
                     {professores.map(prof => (
                       <option key={prof.id || prof.id_usuario} value={prof.id || prof.id_usuario}>
@@ -275,7 +317,7 @@ export function CadastrarUsuario() {
 
             {/* Botão de Cadastro */}
             <button type="submit" className="w-full bg-profgeo-600 text-white font-bold py-3 rounded-lg hover:bg-profgeo-700 transition shadow-md mt-4">
-                Confirmar Cadastro ({tipoUsuario === 'professor' ? 'Professor' : 'Aluno'})
+                Confirmar Cadastro ({tipoUsuario === 'professor' ? 'Professor ProfGeo' : 'Aluno ou Egresso'})
             </button>
         </form>
 

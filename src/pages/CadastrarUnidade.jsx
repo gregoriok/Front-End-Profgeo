@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate, Link } from 'react-router-dom'; // <--- Import Link
+import { useNavigate, Link } from 'react-router-dom';
 import { unidadeService } from '../api/services';
+import { BackButton } from '../components/BackButton';
 
 export function CadastrarUnidade() {
   const { register, handleSubmit } = useForm();
@@ -22,17 +23,12 @@ export function CadastrarUnidade() {
         
         {/* BOTÃO VOLTAR */}
         <div className="mb-6">
-          <Link to="/unidades" className="text-gray-500 hover:text-profgeo-600 flex items-center gap-2 font-medium transition-colors w-fit">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Voltar para Unidades
-          </Link>
+          <BackButton to="/unidades" label="Voltar para Unidades" />
         </div>
 
         {/* CARTÃO DO FORMULÁRIO */}
         <div className="bg-white p-8 rounded-xl shadow-md border border-profgeo-100">
-          <h2 className="text-2xl font-bold mb-6 text-profgeo-900">Nova Unidade Associada</h2>
+          <h2 className="text-2xl font-bold mb-6 text-profgeo-900">Nova Instituição Associada</h2>
           
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>

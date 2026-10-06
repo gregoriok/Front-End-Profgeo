@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { unidadeService } from '../api/services';
+import { BackButton } from '../components/BackButton';
 
 export function ListarUnidades() {
   const [unidades, setUnidades] = useState([]);
@@ -38,14 +39,12 @@ export function ListarUnidades() {
   return (
     <div className="min-h-screen bg-profgeo-50 p-10">
       <div className="max-w-7xl mx-auto mb-4">
-        <Link to="/dashboard" className="text-gray-500 hover:text-profgeo-600 flex items-center gap-1 font-medium transition-colors">
-          ← Voltar para Home
-        </Link>
+        <BackButton to="/dashboard" />
       </div>
 
       <div className="flex justify-between items-center mb-8 max-w-7xl mx-auto">
         <div>
-          <h2 className="text-3xl font-bold text-profgeo-900">Unidades Associadas</h2>
+          <h2 className="text-3xl font-bold text-profgeo-900">Instituições Associadas</h2>
           <p className="text-gray-500 text-sm mt-1">Gerenciamento de polos e unidades</p>
         </div>
         {isSuperUser && (

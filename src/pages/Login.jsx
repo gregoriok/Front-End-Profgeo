@@ -1,21 +1,23 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../components/Toast';
 import { useNavigate, Link } from 'react-router-dom';
 
 export function Login() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm();
   const { login } = useAuth();
+  const { addToast } = useToast();
   const navigate = useNavigate();
-  const [erro, setErro] = useState('');
 
   const onSubmit = async (data) => {
-    setErro('');
     try {
       await login(data.email, data.senha);
+      addToast('Login realizado com sucesso!', 'success');
       navigate('/dashboard');
     } catch (error) {
-      setErro(error.response?.data?.detail || "Verifique suas credenciais e tente novamente.");
+      const mensagem = error.response?.data?.detail || "Verifique suas credenciais e tente novamente.";
+      addToast(mensagem, 'error');
     }
   };
 
@@ -47,15 +49,19 @@ export function Login() {
             />
           </div>
 
-          {erro && (
-            <div className="flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">
-              <span>⚠️</span>
-              <span>{erro}</span>
-            </div>
-          )}
-
-          <button type="submit" className="w-full bg-profgeo-600 text-white font-bold py-3 rounded-lg hover:bg-profgeo-700 transition shadow-md">
-            Entrar
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-profgeo-600 text-white font-bold py-3 rounded-lg hover:bg-profgeo-700 transition shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {isSubmitting ? (
+              <>
+                <span className="inline-block animate-spin">⏳</span>
+                Entrando...
+              </>
+            ) : (
+              'Entrar'
+            )}
           </button>
         </form>
 

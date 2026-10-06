@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { unidadeService, professorService, coordenacaoService } from '../api/services';
+import { BackButton } from '../components/BackButton';
 
 export function CadastrarCoordenador() {
   const { register, handleSubmit, setValue, watch } = useForm();
@@ -80,9 +81,7 @@ export function CadastrarCoordenador() {
       <div className="max-w-xl mx-auto">
         
         <div className="mb-6">
-          <Link to="/unidades" className="text-gray-500 hover:text-profgeo-600 flex items-center gap-2 font-medium w-fit">
-            ← Voltar para Unidades
-          </Link>
+          <BackButton to="/unidades" label="Voltar para Unidades" />
         </div>
 
         <div className="bg-white p-8 rounded-xl shadow-md border border-profgeo-100">
@@ -92,7 +91,7 @@ export function CadastrarCoordenador() {
             
             {/* 1. Seleção de Unidade (Dispara a busca) */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Unidade Associada</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Instituição Associada</label>
               <select 
                 {...register("id_unidade", { required: true })} 
                 onChange={handleUnidadeChange} // <--- O Segredo está aqui
